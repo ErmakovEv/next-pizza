@@ -2,14 +2,14 @@
 
 import { FC } from 'react';
 import { Dialog, DialogContent } from '../ui/dialog';
-import { Title } from '../shared/Title';
-import { Product } from '@prisma/client';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
-import { DialogTitle } from '@radix-ui/react-dialog';
+import { ProductWithRelations } from '@/@types/prisma';
+import { ChooseProductForm } from '../shared/ChooseProductForm';
+import { ChoosePizzaForm } from '../shared/ChoosePizzaForm';
 
 type TChooseProductModalProps = {
-  product: Product;
+  product: ProductWithRelations;
   className?: string;
 };
 
@@ -18,17 +18,26 @@ export const ChooseProductModal: FC<TChooseProductModalProps> = ({
   className,
 }) => {
   const router = useRouter();
+  const isPizzaForm = Boolean(product.productItems[0].pizzaType);
 
   return (
     <Dialog open={!!product} onOpenChange={() => router.back()}>
-      <DialogTitle>Text</DialogTitle>
       <DialogContent
         className={cn(
           'p-0 w-[1060px] max-w-[1060px] min-h-[500px] bg-white overflow-hidden',
           className
         )}
       >
-        <Title text={product.name} />
+        {isPizzaForm ? (
+          <ChoosePizzaForm
+            imageUrl={product.imageUrl}
+            name={product.name}
+            ingredients={product.ingredients}
+            items={product.productItems}
+          />
+        ) : (
+          <ChooseProductForm imageUrl={product.imageUrl} name={product.name} />
+        )}
       </DialogContent>
     </Dialog>
   );

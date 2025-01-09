@@ -1,13 +1,13 @@
 import { cn } from '@/lib/utils';
 import { FC } from 'react';
 
-type TProductImageProps = {
+type TPizzaImageProps = {
   className?: string;
   imageUrl: string;
   size: number;
 };
 
-export const ProductImage: FC<TProductImageProps> = ({
+export const PizzaImage: FC<TPizzaImageProps> = ({
   className,
   imageUrl,
   size,
