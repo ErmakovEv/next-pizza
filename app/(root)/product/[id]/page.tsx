@@ -1,6 +1,6 @@
 import { Container } from '@/components/shared/Container';
 import { GroupVariants } from '@/components/shared/GroupVariants';
-import { ProductImage } from '@/components/shared/PizzaImage';
+import { PizzaImage } from '@/components/shared/PizzaImage';
 import { Title } from '@/components/shared/Title';
 import { prisma } from '@/prisma/prisma-client';
 import { notFound } from 'next/navigation';
@@ -18,7 +18,7 @@ const ProductPage: FC<TpageProps> = async ({ params: { id } }: TpageProps) => {
   return (
     <Container className="flex flex-col my-10">
       <div className="flex flex-1">
-        <ProductImage imageUrl={product.imageUrl} size={40} />
+        <PizzaImage imageUrl={product.imageUrl} size={40} />
 
         <div className="w-[490px] bg-[@FCFCFC] p-7">
           <Title

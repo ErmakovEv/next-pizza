@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 import { Container } from './Container';
 import Image from 'next/image';
 import { Button } from '../ui/button';
-import { ArrowRight, ShoppingCart, User } from 'lucide-react';
+import { User } from 'lucide-react';
 import React from 'react';
 import Link from 'next/link';
 import { SearchInput } from './SearchInput';

@@ -8,10 +8,11 @@ import { Title } from './Title';
 import { useEffect, useRef } from 'react';
 import { useIntersection } from 'react-use';
 import { useCategoryStore } from '@/store/category';
+import { ProductWithRelations } from '@/@types/prisma';
 
 type TProductsListProps = {
   title: string;
-  items: any[];
+  items: ProductWithRelations[];
   categoryId: number;
   classname?: string;
   listClassName?: string;

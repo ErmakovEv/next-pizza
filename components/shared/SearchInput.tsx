@@ -63,7 +63,7 @@ export const SearchInput: FC<TSearchInputProps> = ({ classname }) => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        {products.length && (
+        {products.length ? (
           <div
             className={cn(
               'absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30',
@@ -86,7 +86,7 @@ export const SearchInput: FC<TSearchInputProps> = ({ classname }) => {
               </Link>
             ))}
           </div>
-        )}
+        ) : null}
       </div>
     </>
   );
