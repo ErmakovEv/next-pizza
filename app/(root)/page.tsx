@@ -3,21 +3,15 @@ import { Filters } from '@/components/shared/Filters';
 import { ProductsList } from '@/components/shared/ProductsList';
 import { Title } from '@/components/shared/Title';
 import { TopBar } from '@/components/shared/TopBar';
-import { prisma } from '@/prisma/prisma-client';
+import { findPizzas, GetSearchParams } from '@/lib/findPizzas';
 import { Suspense } from 'react';
 
-export default async function Home() {
-  const categories = await prisma.category.findMany({
-    include: {
-      products: {
-        include: {
-          ingredients: true,
-          productItems: true,
-        },
-      },
-    },
-  });
-
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: GetSearchParams;
+}) {
+  const categories = await findPizzas(searchParams);
   return (
     <>
       <Container className="mt-10">
@@ -35,16 +29,15 @@ export default async function Home() {
           </div>
           <div className="flex-1">
             <div className="flex flex-col gap-16">
-              {categories.map(
-                (cat) =>
-                  cat.products.length && (
-                    <ProductsList
-                      key={cat.id}
-                      title={cat.name}
-                      items={cat.products}
-                      categoryId={cat.id}
-                    />
-                  )
+              {categories.map((cat) =>
+                cat.products?.length ? (
+                  <ProductsList
+                    key={cat.id}
+                    title={cat.name}
+                    items={cat.products}
+                    categoryId={cat.id}
+                  />
+                ) : null
               )}
             </div>
           </div>

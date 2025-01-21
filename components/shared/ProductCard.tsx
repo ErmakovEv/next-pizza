@@ -3,12 +3,14 @@ import { FC } from 'react';
 import { Title } from './Title';
 import { Button } from '../ui/button';
 import { Plus } from 'lucide-react';
+import { Ingredient } from '@prisma/client';
 
 type TProductCardProps = {
   id: number;
   name: string;
   price: number;
   imageUrl: string;
+  ingredients: Ingredient[];
   classname?: string;
 };
 
@@ -17,6 +19,7 @@ export const ProductCard: FC<TProductCardProps> = ({
   name,
   price,
   imageUrl,
+  ingredients,
   classname,
 }) => {
   return (
@@ -28,7 +31,9 @@ export const ProductCard: FC<TProductCardProps> = ({
 
         <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
 
-        <p className="text-sm text-gray-400">Какие-то ингредиенты</p>
+        <p className="text-sm text-gray-400">
+          {ingredients.map((item) => item.name).join(', ')}
+        </p>
 
         <div className="flex justify-between items-center mt-4">
           <span className="text-[20px]">

@@ -25,7 +25,6 @@ export const Filters: FC<TFiltersProps> = ({ classname }) => {
   }));
 
   const updatePrices = (prices: number[]) => {
-    console.log(prices, 999);
     filters.setPrices('priceFrom', prices[0]);
     filters.setPrices('priceTo', prices[1]);
   };
@@ -41,8 +40,8 @@ export const Filters: FC<TFiltersProps> = ({ classname }) => {
         onClickCheckbox={filters.setPizzaTypes}
         selected={filters.pizzaTypes}
         items={[
-          { text: 'Тонкое', value: '1' },
-          { text: 'Традиционное', value: '2' },
+          { text: 'Тонкое', value: '2' },
+          { text: 'Традиционное', value: '1' },
         ]}
       />
 

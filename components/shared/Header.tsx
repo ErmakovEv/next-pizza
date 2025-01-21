@@ -9,12 +9,16 @@ import { SearchInput } from './SearchInput';
 import CartButton from './CartButton';
 
 type THeaderProps = {
-  classname?: string;
+  className?: string;
+  hasCheckout?: boolean;
 };
 
-export const Header: React.FC<THeaderProps> = ({ classname }) => {
+export const Header: React.FC<THeaderProps> = ({
+  className,
+  hasCheckout = false,
+}) => {
   return (
-    <header className={cn(classname, 'border border-b')}>
+    <header className={cn(className, 'border-b')}>
       <Container className="flex items-center justify-between py-8">
         <Link href="/">
           <div className="flex items-center gap-4">
@@ -27,17 +31,21 @@ export const Header: React.FC<THeaderProps> = ({ classname }) => {
             </div>
           </div>
         </Link>
-        <div className="mx-10 flex-1">
-          <SearchInput />
-        </div>
+        {!hasCheckout && (
+          <div className="mx-10 flex-1">
+            <SearchInput />
+          </div>
+        )}
         <div className="flex items-center gap-3">
           <Button variant="outline" className="flex items-center gap-1">
             <User size={16} />
             Войти
           </Button>
-          <div>
-            <CartButton />
-          </div>
+          {!hasCheckout && (
+            <div>
+              <CartButton />
+            </div>
+          )}
         </div>
       </Container>
     </header>
