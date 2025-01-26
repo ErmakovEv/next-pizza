@@ -1,12 +1,17 @@
+'use client';
+
 import { cn } from '@/lib/utils';
 import { Container } from './Container';
 import Image from 'next/image';
-import { Button } from '../ui/button';
-import { User } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { SearchInput } from './SearchInput';
 import CartButton from './CartButton';
+import { useSearchParams } from 'next/navigation';
+import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
+import { ProfileButton } from './ProfileButton';
+import { AuthModal } from '../modal/AuthModal/AuthModal';
 
 type THeaderProps = {
   className?: string;
@@ -17,6 +22,31 @@ export const Header: React.FC<THeaderProps> = ({
   className,
   hasCheckout = false,
 }) => {
+  const { data: session } = useSession();
+  const searchParams = useSearchParams();
+
+  const [openAuthModal, setOpenAuthModal] = useState(false);
+
+  console.log('session', session);
+
+  React.useEffect(() => {
+    let toastMessage = '';
+
+    if (searchParams.has('paid')) {
+      toastMessage = 'Заказ успешно оплачен! Информация отправлена на почту.';
+    }
+
+    // if (searchParams.has('verified')) {
+    //   toastMessage = 'Почта успешно подтверждена!';
+    // }
+
+    if (toastMessage) {
+      setTimeout(() => {
+        toast.success(toastMessage);
+      }, 100);
+    }
+  }, [searchParams]);
+
   return (
     <header className={cn(className, 'border-b')}>
       <Container className="flex items-center justify-between py-8">
@@ -37,10 +67,12 @@ export const Header: React.FC<THeaderProps> = ({
           </div>
         )}
         <div className="flex items-center gap-3">
-          <Button variant="outline" className="flex items-center gap-1">
-            <User size={16} />
-            Войти
-          </Button>
+          <AuthModal
+            open={openAuthModal}
+            onClose={() => setOpenAuthModal(false)}
+          />
+
+          <ProfileButton onClickSignIn={() => setOpenAuthModal(true)} />
           {!hasCheckout && (
             <div>
               <CartButton />
