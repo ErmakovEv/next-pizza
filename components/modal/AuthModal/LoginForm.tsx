@@ -61,7 +61,7 @@ export const LoginForm: FC<TLoginFormProps> = ({ className, onClose }) => {
             </p>
           </div>
           <img
-            src="/assets/images/phone-icon.png"
+            src="/assets/image/phone-icon.png"
             alt="phone-icon"
             width={60}
             height={60}

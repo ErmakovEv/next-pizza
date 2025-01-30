@@ -14,12 +14,16 @@ import {
 import { CheckoutSidebar } from '@/components/shared/checkout/CheckoutSidebar';
 import { Container } from '@/components/shared/Container';
 import { createOrder } from '@/app/api/actions';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
+import { Api } from '@/services/api-client';
 
 const CheckoutPage = () => {
   const { totalAmount, loading } = useCart();
   const [submitting, setSubmitting] = useState(false);
+
+  const { data: session } = useSession();
 
   const form = useForm<TCheckoutForm>({
     resolver: zodResolver(checkoutFormSchema),
@@ -54,6 +58,22 @@ const CheckoutPage = () => {
       });
     }
   };
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const data = await Api.auth.getMe();
+
+      const [firstName, lastName] = data.fullName.split(' ');
+
+      form.setValue('firstName', firstName);
+      form.setValue('lastName', lastName);
+      form.setValue('email', data.email);
+    };
+
+    if (session) {
+      fetchUserInfo();
+    }
+  }, [form, session]);
 
   return (
     <Container className="mt-10">

@@ -7,9 +7,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { SearchInput } from './SearchInput';
 import CartButton from './CartButton';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { useSession } from 'next-auth/react';
 import { ProfileButton } from './ProfileButton';
 import { AuthModal } from '../modal/AuthModal/AuthModal';
 
@@ -22,12 +21,10 @@ export const Header: React.FC<THeaderProps> = ({
   className,
   hasCheckout = false,
 }) => {
-  const { data: session } = useSession();
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
-
-  console.log('session', session);
 
   React.useEffect(() => {
     let toastMessage = '';
@@ -36,16 +33,17 @@ export const Header: React.FC<THeaderProps> = ({
       toastMessage = 'Заказ успешно оплачен! Информация отправлена на почту.';
     }
 
-    // if (searchParams.has('verified')) {
-    //   toastMessage = 'Почта успешно подтверждена!';
-    // }
+    if (searchParams.has('verified')) {
+      toastMessage = 'Почта успешно подтверждена!';
+    }
 
     if (toastMessage) {
       setTimeout(() => {
+        router.replace('/');
         toast.success(toastMessage);
       }, 100);
     }
-  }, [searchParams]);
+  }, [router, searchParams]);
 
   return (
     <header className={cn(className, 'border-b')}>
