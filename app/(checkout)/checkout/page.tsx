@@ -10,7 +10,7 @@ import { CheckoutAddressFrom } from '@/components/shared/checkout/CheckoutAddres
 import {
   checkoutFormSchema,
   TCheckoutForm,
-} from '@/components/shared/checkout/schema';
+} from '@/components/shared/schemas/checkout';
 import { CheckoutSidebar } from '@/components/shared/checkout/CheckoutSidebar';
 import { Container } from '@/components/shared/Container';
 import { createOrder } from '@/app/api/actions';

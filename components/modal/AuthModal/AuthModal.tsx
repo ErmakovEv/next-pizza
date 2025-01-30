@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { signIn } from 'next-auth/react';
+import { LoginForm } from './LoginForm';
 
 type TAuthModalProps = {
   open: boolean;
@@ -10,14 +11,20 @@ type TAuthModalProps = {
 };
 
 export const AuthModal: FC<TAuthModalProps> = ({ open, onClose }) => {
+  const [type, setType] = useState<'login' | 'register'>('login');
+
+  const onSwitchType = () => {
+    setType(type === 'login' ? 'register' : 'login');
+  };
+
   const handleClose = () => {
     onClose();
   };
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent>
-        FORM
+      <DialogContent className="w-[450px] bg-white p-10">
+        {type ? <LoginForm onClose={handleClose} /> : <>RegisterForm</>}
         <hr />
         <div className="flex gap-2">
           <Button
@@ -55,6 +62,15 @@ export const AuthModal: FC<TAuthModalProps> = ({ open, onClose }) => {
             Google
           </Button>
         </div>
+
+        <Button
+          variant="outline"
+          onClick={onSwitchType}
+          type="button"
+          className="h-12"
+        >
+          {type !== 'login' ? 'Войти' : 'Регистрация'}
+        </Button>
       </DialogContent>
     </Dialog>
   );
