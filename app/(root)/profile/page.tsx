@@ -10,8 +10,6 @@ const ProfilePage = async () => {
     return redirect('/not-auth');
   }
 
-  console.log(session);
-
   const user = await prisma.user.findFirst({
     where: { id: Number(session?.id) },
   });
